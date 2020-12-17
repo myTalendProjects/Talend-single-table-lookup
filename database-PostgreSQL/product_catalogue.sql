@@ -33,6 +33,75 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: device_blacklist; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.device_blacklist (
+    id integer NOT NULL,
+    service_id integer NOT NULL,
+    model_id integer NOT NULL
+);
+
+
+ALTER TABLE public.device_blacklist OWNER TO postgres;
+
+--
+-- Name: device_blacklist_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.device_blacklist_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.device_blacklist_id_seq OWNER TO postgres;
+
+--
+-- Name: device_blacklist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.device_blacklist_id_seq OWNED BY public.device_blacklist.id;
+
+
+--
+-- Name: device_model; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.device_model (
+    id integer NOT NULL,
+    model_code character(20) NOT NULL
+);
+
+
+ALTER TABLE public.device_model OWNER TO postgres;
+
+--
+-- Name: device_model_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.device_model_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.device_model_id_seq OWNER TO postgres;
+
+--
+-- Name: device_model_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.device_model_id_seq OWNED BY public.device_model.id;
+
+
+--
 -- Name: service_details; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -77,10 +146,48 @@ ALTER SEQUENCE public.service_details_id_seq OWNED BY public.service_details.id;
 
 
 --
+-- Name: device_blacklist id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.device_blacklist ALTER COLUMN id SET DEFAULT nextval('public.device_blacklist_id_seq'::regclass);
+
+
+--
+-- Name: device_model id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.device_model ALTER COLUMN id SET DEFAULT nextval('public.device_model_id_seq'::regclass);
+
+
+--
 -- Name: service_details id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.service_details ALTER COLUMN id SET DEFAULT nextval('public.service_details_id_seq'::regclass);
+
+
+--
+-- Data for Name: device_blacklist; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.device_blacklist (id, service_id, model_id) FROM stdin;
+1	3	3
+2	6	3
+3	11	3
+4	2	1
+5	2	2
+\.
+
+
+--
+-- Data for Name: device_model; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.device_model (id, model_code) FROM stdin;
+1	nova3E              
+2	apple 5SE           
+3	samsung s8          
+\.
 
 
 --
@@ -103,10 +210,40 @@ COPY public.service_details (id, service_code, partner_id, name, managed, global
 
 
 --
+-- Name: device_blacklist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.device_blacklist_id_seq', 5, true);
+
+
+--
+-- Name: device_model_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.device_model_id_seq', 3, true);
+
+
+--
 -- Name: service_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.service_details_id_seq', 11, true);
+
+
+--
+-- Name: device_blacklist device_blacklist_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.device_blacklist
+    ADD CONSTRAINT device_blacklist_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: device_model device_model_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.device_model
+    ADD CONSTRAINT device_model_pkey PRIMARY KEY (id);
 
 
 --
