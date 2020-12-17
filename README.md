@@ -15,7 +15,7 @@ A PostgreSQL database needs to be preconfigured. The database schema `(with samp
 
 `Sample service_details table`
 
-![alttext](./images/postgres-ServiceDetail-table.PNG?raw=true)
+![alttext](./images/postgres-ServiceDetails-table.PNG?raw=true)
 
 
 ## Project configuration
