@@ -15,7 +15,7 @@ A PostgreSQL database needs to be preconfigured. The database schema `(with samp
 
 `Sample service_details table`
 
-![alttext](./images/Postgres-Servicedetails-Table.PNG?raw=true)
+![alttext](./images/postgres-ServiceDetail-table.PNG?raw=true)
 
 
 ## Project configuration
@@ -45,12 +45,12 @@ The response will contain `service_details` table data.
 
 ## Response
 
-###Data available scenario : Response contains all the service details
+### Data available scenario : Response contains all the service details
 `Jmeter`
 
 ![alttext](./images/Jmeter-success_resp.PNG?raw=true)
 
-###Data unavailable scenario: Response contains only service code.
+### Data unavailable scenario: Response contains only service code.
 `Jmeter`
 
 ![alttext](./images/Jmeter-unsuccess_resp.PNG?raw=true)
