@@ -46,9 +46,11 @@ The response will contain `service_details` table data.
 ## Response
 
 ###Data available scenario : Response contains all the service details
+`Jmeter`
 
-![alttext](./images/Sample-Completed.PNG?raw=true)
+![alttext](./images/Jmeter-success_resp.PNG?raw=true)
 
 ###Data unavailable scenario: Response contains only service code.
+`Jmeter`
 
-![alttext](./images/Sample-Invalid.PNG?raw=true)
+![alttext](./images/Jmeter-unsuccess_resp.PNG?raw=true)
