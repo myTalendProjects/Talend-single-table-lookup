@@ -1,79 +1,54 @@
-# Talend-importDMSdata
-Talend Job to import DMS (Device management System) data in to Device Model master table in Postgres database and update Subscriber (Subscriber Profile) table. 
-
+# Talend-singleTableLookup
+Talend Job is to Open HTTP endpoint to lookup a table in PostgreSQL database.
 ![alttext](./images/TalendJob.PNG?raw=true)
 
 
 ## Import and Build in Talend OpenStudio
-This Talend project can be imported and build in Talned open studio for ESB.
+This [Talend project](./POSTGRESQL_LOOKUP_SINGLE_TABLE) can be imported and build in Talend open studio for ESB.
 
 ![alttext](./images/ImportProject.PNG?raw=true)
 
 ## Prerequisites
 
 ### PostgreSQL database
-In this project data in a csv fille list will be imported to PostgreSQL database. 
 A PostgreSQL database needs to be preconfigured. The database schema `(with sample data)` is included in [database-PostgreSQL](./database-PostgreSQL) directory.
 
-`Sample device_model table`
+`Sample service_details table`
 
-![alttext](./images/Postgres-Devicemodel-Table.PNG?raw=true)
+![alttext](./images/Postgres-Servicedetails-Table.PNG?raw=true)
 
 
 ## Project configuration
 
-Context variables needs to be congured according to the envirionment as mentioned below
+Context variables needs to be configured according to the envirionment as mentioned below
 
 | Context Variable | Description  |
 --- | ---
-| operator_id | DMS operator id|
 | postgresHost | PostgreSQL database host IP| 
 | postgresPort | PostgreSQL database port| 
 | postgresUser | PostgreSQL database username| 
 | postgresPass | PostgreSQL database password| 
 | postgresDatabase | PostgreSQL database name| 
-| postgresDeviceModel | Device Model master data table name |
-| postgresSubscriber | Subscriber table name |
-| dmsSkipped | Relative dir path to store skppied records |
-| dmsInvalid | Relative dir path to store invalid records |
-| dmsSource | Relative dir path to read source files |
-| dmsCompleted | Relative dir path to store completed files |
-| dmsRoot | Absolute dir path for root of the dir structure | 
-
 
 `Example Configuration`
 
 ![alttext](./images/Talend-Context-Var.PNG?raw=true)
 
-`Example Directory Structure`
-
-![alttext](./images/Sample-Directory-Structure.PNG?raw=true)
-
-A Sample data set is in  [my_sample_data](./my_sample_data) directory.
-
-
 ## How it works
-Location configured as `dmsRoot` will be considered as the root directory for all the directory relative paths. 
-1. CSV file list in location configured as `dmsSource` will be read sequencially and validate.
-  - Validate against schema structure
-  - Validate against data type/length constrains
-  and invalid records will be written to the file with name `source_file_name + '_dms_invalid'`
-2. Device Model master data table configured as `postgresDeviceModel` will be looked up by `Model` for data availability and insert if not available.
-3. Subscriber table configured as `postgresSubscriber` will be looked up by `MSISDN` for data availability.
-  - If MSISDN is available, database record will be updated with `primary-key` value of the `Model` in Device Model master data table.
-  - Other wise file record will be skipped and relevant data will be written to the file with `source_file_name + '_dms_skipped'`
-4. Completed file will be rename to `source_file_name + '_completed'` and moved to the location congired as `dmsCompleted`
+Talend Job will open an HTTP endpoint which can be used to lookup `service_details` table by `service_code` parameter
+HTTP `GET` request with `service_code` as a search parameter will be sent for `service_details` table lookup.
 
-## Output result files
+`Example Request`
+`http://localhost:8088/service_details?service_code=wn104`
 
-Completed files will be renamed and move to location specified in `dmsCompleted` relative path.
+The response will contain `service_details` table data.
+
+## Response
+
+###Data available scenario : Response contains all the service details
 
 ![alttext](./images/Sample-Completed.PNG?raw=true)
 
-Invalid recored in completed files will be renamed and move to location specified in `dmsInvalid`  relative path.
+###Data unavailable scenario: Response contains only service code.
 
 ![alttext](./images/Sample-Invalid.PNG?raw=true)
-
-Skipped recored in completed files will be renamed and move to location specified in `dmsSkipped`  relative path.
-
-![alttext](./images/Sample-Skipped.PNG?raw=true)
